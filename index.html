@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Todo App | Organized Tasks</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-gray-50 min-h-screen font-sans">
+    <div class="container mx-auto px-3 sm:px-4 py-4 sm:py-8 max-w-6xl">
+        
+        <!-- Header Section -->
+        <header class="text-center mb-6 sm:mb-8 mobile-p-3">
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3 mb-2">
+                <div class="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center shadow-lg">
+                    <span class="text-white text-lg sm:text-xl">📝</span>
+                </div>
+                <h1 class="text-2xl sm:text-4xl font-bold text-gray-800 mobile-text-center">Smart Todo App</h1>
+            </div>
+            <p class="text-gray-600 text-sm sm:text-lg mobile-text-center">Stay organized with task history tracking</p>
+        </header>
+
+        <div class="grid mobile-grid-1 lg:grid-cols-3 gap-4 sm:gap-8">
+            <!-- Left Column - Active Tasks -->
+            <div class="lg:col-span-2">
+                <!-- Input Section -->
+                <div class="bg-white rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6 mb-4 sm:mb-6 border border-gray-200">
+                    <div class="flex flex-col gap-3 mobile-stack">
+                        <input 
+                            type="text" 
+                            id="todoInput"
+                            placeholder="What needs to be done?" 
+                            class="w-full px-3 sm:px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 text-gray-700 placeholder-gray-400 text-base"
+                        >
+                        <button 
+                            id="addBtn"
+                            class="bg-blue-500 hover:bg-blue-600 text-white px-4 sm:px-6 py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 shadow-md flex items-center justify-center gap-2 mobile-full"
+                        >
+                            <i class="fas fa-plus"></i>
+                            Add Task
+                        </button>
+                    </div>
+                    
+                    <!-- Additional Task Options -->
+                    <div class="mt-3 sm:mt-4 flex flex-col sm:flex-row gap-3 mobile-stack mobile-space-y-2 md:justify-between">
+                        <div class="flex items-center gap-2 mobile-full">
+                            <input type="date" id="taskDueDate" class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-200 text-sm">
+                            <label class="hidden lg:block text-sm text-gray-600 whitespace-nowrap">Due Date</label>
+                        </div>
+                        <div class="flex items-center gap-2 mobile-full">
+                            <select id="taskPriority" class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-200 text-sm">
+                                <option value="low">Low Priority</option>
+                                <option value="medium" selected>Medium Priority</option>
+                                <option value="high">High Priority</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Active Tasks Section -->
+                <div class="bg-white rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6 border border-gray-200">
+                    <div class="flex flex-col sm:flex-row items-center justify-between mb-4 sm:mb-6 gap-3 mobile-stack">
+                        <h2 class="text-lg sm:text-xl font-semibold text-gray-800 flex items-center gap-2 mobile-text-center">
+                            <i class="fas fa-tasks text-blue-500"></i>
+                            Active Tasks
+                            <span id="activeTasksCount" class="bg-blue-100 text-blue-600 px-2 py-1 rounded-full text-xs sm:text-sm">0</span>
+                        </h2>
+                        <div class="flex gap-2 w-full sm:w-auto mobile-stack">
+                            <button id="clearCompleted" class="flex-1 sm:flex-none bg-green-500 hover:bg-green-600 text-white px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition-all flex items-center justify-center gap-2 mobile-full">
+                                <i class="fas fa-check-double"></i>
+                                Complete All
+                            </button>
+                            <button id="exportTasks" class="flex-1 sm:flex-none bg-gray-500 hover:bg-gray-600 text-white px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm transition-all flex items-center justify-center gap-2 mobile-full">
+                                <i class="fas fa-download"></i>
+                                Export
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Tasks List -->
+                    <div id="todoList" class="space-y-3 max-h-64 sm:max-h-96 overflow-y-auto">
+                        <!-- Active tasks will appear here -->
+                        <div id="emptyActive" class="text-center py-6 sm:py-8 text-gray-500 fade-in">
+                            <i class="fas fa-clipboard-list text-3xl sm:text-4xl text-gray-300 mb-2 sm:mb-3"></i>
+                            <p class="text-sm sm:text-base">No active tasks. Add a task to get started!</p>
+                        </div>
+                    </div>
+
+                    <!-- Quick Stats -->
+                    <div class="mt-4 sm:mt-6 pt-3 sm:pt-4 border-t border-gray-200">
+                        <div class="grid grid-cols-3 gap-2 sm:gap-4 text-center">
+                            <div>
+                                <div class="text-lg sm:text-2xl font-bold text-blue-600" id="totalTasksCount">0</div>
+                                <div class="text-xs text-gray-600">Total Tasks</div>
+                            </div>
+                            <div>
+                                <div class="text-lg sm:text-2xl font-bold text-green-600" id="completedTasksCount">0</div>
+                                <div class="text-xs text-gray-600">Completed</div>
+                            </div>
+                            <div>
+                                <div class="text-lg sm:text-2xl font-bold text-orange-600" id="pendingTasksCount">0</div>
+                                <div class="text-xs text-gray-600">Pending</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column - History & Analytics -->
+            <div class="lg:col-span-1">
+                <!-- History Section -->
+                <div class="bg-white rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6 mb-4 sm:mb-6 border border-gray-200">
+                    <div class="flex flex-col sm:flex-row items-center justify-between mb-3 sm:mb-4 gap-2 mobile-stack">
+                        <h2 class="text-lg sm:text-xl font-semibold text-gray-800 flex items-center gap-2 mobile-text-center">
+                            <i class="fas fa-history text-purple-500"></i>
+                            Task History
+                        </h2>
+                        <button id="clearHistory" class="text-red-500 hover:text-red-700 text-xs sm:text-sm transition-all">
+                            <i class="fas fa-trash"></i> Clear
+                        </button>
+                    </div>
+
+                    <!-- History Navigation -->
+                    <div class="flex justify-center gap-1 sm:gap-2 mb-3 sm:mb-4">
+                        <button data-filter="all" class="history-filter active bg-blue-500 text-white px-2 sm:px-3 py-1 rounded-full text-xs">All</button>
+                        <button data-filter="today" class="history-filter bg-gray-200 text-gray-700 px-2 sm:px-3 py-1 rounded-full text-xs">Today</button>
+                        <button data-filter="week" class="history-filter bg-gray-200 text-gray-700 px-2 sm:px-3 py-1 rounded-full text-xs">Week</button>
+                    </div>
+
+                    <!-- History List -->
+                    <div id="historyList" class="space-y-2 sm:space-y-3 max-h-48 sm:max-h-80 overflow-y-auto">
+                        <!-- History items will appear here -->
+                        <div id="emptyHistory" class="text-center py-6 sm:py-8 text-gray-500 fade-in">
+                            <i class="fas fa-history text-2xl sm:text-3xl text-gray-300 mb-2 sm:mb-3"></i>
+                            <p class="text-xs sm:text-sm">No completed tasks yet</p>
+                        </div>
+                    </div>
+
+                    <!-- History Stats -->
+                    <div class="mt-3 sm:mt-4 pt-3 sm:pt-4 border-t border-gray-200">
+                        <div class="text-center">
+                            <div class="text-lg sm:text-2xl font-bold text-purple-600" id="totalCompleted">0</div>
+                            <div class="text-xs text-gray-600">Total Completed</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Productivity Analytics -->
+                <div class="bg-white rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6 border border-gray-200">
+                    <h2 class="text-lg sm:text-xl font-semibold text-gray-800 mb-3 sm:mb-4 flex items-center gap-2 mobile-text-center">
+                        <i class="fas fa-chart-line text-green-500"></i>
+                        Productivity
+                    </h2>
+                    
+                    <div class="space-y-3 sm:space-y-4">
+                        <div>
+                            <div class="flex justify-between text-xs sm:text-sm mb-1">
+                                <span class="text-gray-600">Today's Progress</span>
+                                <span class="text-green-600 font-semibold" id="todayProgress">0%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div id="todayProgressBar" class="bg-green-500 h-2 rounded-full transition-all duration-500" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between text-xs sm:text-sm mb-1">
+                                <span class="text-gray-600">Weekly Average</span>
+                                <span class="text-blue-600 font-semibold" id="weeklyAverage">0%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div id="weeklyAverageBar" class="bg-blue-500 h-2 rounded-full transition-all duration-500" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="text-center text-xs sm:text-sm text-gray-600">
+                            <i class="fas fa-trophy text-yellow-500 mr-1"></i>
+                            Best Day: <span id="bestDay" class="font-semibold">None</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript File -->
+    <script src="js/script.js"></script>
+</body>
+</html>

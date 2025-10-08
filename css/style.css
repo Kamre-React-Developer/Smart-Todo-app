@@ -1,0 +1,220 @@
+/* Custom Animations */
+.fade-in {
+    animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+    from { 
+        opacity: 0; 
+        transform: translateY(10px); 
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0); 
+    }
+}
+
+.slide-in {
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from { 
+        transform: translateX(-20px); 
+        opacity: 0; 
+    }
+    to { 
+        transform: translateX(0); 
+        opacity: 1; 
+    }
+}
+
+/* Completed Task Styling */
+.completed-task {
+    background: linear-gradient(135deg, #d1fae5 0%, #ecfdf5 100%);
+    border-left: 4px solid #10b981;
+}
+
+.history-item {
+    transition: all 0.3s ease;
+}
+
+.history-item:hover {
+    transform: translateX(5px);
+    background-color: #f8fafc;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
+    .mobile-stack {
+        flex-direction: column !important;
+    }
+    
+    .mobile-full {
+        width: 100% !important;
+    }
+    
+    .mobile-text-center {
+        text-align: center !important;
+    }
+    
+    .mobile-p-3 {
+        padding: 0.75rem !important;
+    }
+    
+    .mobile-space-y-2 > * + * {
+        margin-top: 0.5rem !important;
+    }
+    
+    .mobile-grid-1 {
+        grid-template-columns: 1fr !important;
+    }
+    
+    /* Mobile touch improvements */
+    button, input, select {
+        min-height: 44px;
+    }
+}
+
+/* Priority Indicator Borders */
+.priority-high {
+    border-left: 4px solid #ef4444 !important;
+}
+
+.priority-medium {
+    border-left: 4px solid #f59e0b !important;
+}
+
+.priority-low {
+    border-left: 4px solid #10b981 !important;
+}
+
+/* Loading States */
+.loading {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { 
+        opacity: 1; 
+    }
+    50% { 
+        opacity: 0.5; 
+    }
+}
+
+/* Notification Styles */
+.notification {
+    position: fixed;
+    top: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateX(-50%) translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(-50%) translateY(0);
+        opacity: 1;
+    }
+}
+
+.notification.success {
+    background-color: #10b981;
+    color: white;
+}
+
+.notification.error {
+    background-color: #ef4444;
+    color: white;
+}
+
+.notification.info {
+    background-color: #3b82f6;
+    color: white;
+}
+
+/* Progress Bar Animations */
+.progress-bar {
+    transition: width 0.5s ease-in-out;
+}
+
+/* Task Item Hover Effects */
+.task-item {
+    transition: all 0.2s ease;
+}
+
+.task-item:hover {
+    background-color: #f8fafc;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* History Filter Active State */
+.history-filter.active {
+    background-color: #3b82f6 !important;
+    color: white !important;
+}
+
+/* Empty State Styling */
+.empty-state {
+    color: #6b7280;
+    text-align: center;
+    padding: 2rem 1rem;
+}
+
+.empty-state i {
+    color: #d1d5db;
+    margin-bottom: 1rem;
+}
+
+/* Focus States for Accessibility */
+input:focus, 
+button:focus, 
+select:focus {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+}
+
+/* Print Styles */
+@media print {
+    .no-print {
+        display: none !important;
+    }
+    
+    .bg-gray-50 {
+        background: white !important;
+    }
+    
+    .shadow-lg {
+        box-shadow: none !important;
+    }
+}
